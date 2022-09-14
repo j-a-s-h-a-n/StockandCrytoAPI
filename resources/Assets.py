@@ -10,12 +10,23 @@ class portfolio(Resource):
         id = get_jwt_identity()
         assets=AssetModel.find_all_assets(id=id)
         if assets:
-            accounts = {}
+            dic = {}
             for a in assets:
-                accounts[a.name]=float(a.quantity)
-            return accounts,200
-        else:
-            return {'Message':'No assets recorded.'}
+                if a.type == 'stock':
+                    data = getStockStat(a.name)
+                    price = float(data['Price'])
+                    currentHoldings = price * a.quantity
+                else:
+                    data = getCryptoStat(a.name)
+                    price = float(data['Price'].replace("$", '').replace(",", ''))
+                    currentHoldings = price * a.quantity
+                change = float(data['Price Change'].replace("$", '').replace(",", '')) * a.quantity
+                dic[a.name] = {"Quantity": a.quantity,
+                               'Price': f"${price.__round__(2)}",
+                               'Value': f"${currentHoldings.__round__(2)}"}
+            if dic:
+                return dic,200
+        return {'Message':'No assets recorded.'}
 
 class addAsset(Resource):
     parser=reqparse.RequestParser()
@@ -39,7 +50,7 @@ class addAsset(Resource):
     def post(self):
         id=get_jwt_identity()
         data=self.parser.parse_args()
-        if AssetModel.find_asset(id=id,name=data['name'],type=data['type']):
+        if AssetModel.find_asset(id=id,name=data['name'].lower(),type=data['type'].lower()):
             return {'Message':'Asset already exist. Use PATCH method.'},400
 
         if data['type']=='crypto':
@@ -50,7 +61,7 @@ class addAsset(Resource):
             results = getStock(data['name'])
             if 'Message' in results:
                 return results, 404
-        asset = AssetModel(name=data['name'],quantity=data['quantity'],type = data['type'],owner=id)
+        asset = AssetModel(name=data['name'].lower(),quantity=data['quantity'],type = data['type'].lower(),owner=id)
         asset.save_to_db()
         return {'Message':'Asset successfully added.'},200
 
@@ -58,10 +69,10 @@ class addAsset(Resource):
     def patch(self):
         id = get_jwt_identity()
         data = self.parser.parse_args()
-        asset_to_update=AssetModel.find_asset(id=id, name=data['name'],type=data['type'])
+        asset_to_update=AssetModel.find_asset(id=id, name=data['name'].lower(),type=data['type'].lower())
         if asset_to_update:
             asset_to_update.delete_from_db()
-            asset = AssetModel(name=data['name'], quantity=data['quantity'], type=data['type'], owner=id)
+            asset = AssetModel(name=data['name'].lower(), quantity=data['quantity'], type=data['type'].lower(), owner=id)
             asset.save_to_db()
             return {'Message': 'Asset successfully updated.'},200
         return {'Message': "Asset doesn't exist. Use POST method to add asset."}, 400
@@ -82,7 +93,7 @@ class remove(Resource):
     def delete(self):
         id = get_jwt_identity()
         data = self.parser.parse_args()
-        asset_to_delete=AssetModel.find_asset(id,data['name'],data['type'])
+        asset_to_delete=AssetModel.find_asset(id,data['name'].lower(),data['type'].lower())
         if asset_to_delete:
             asset_to_delete.delete_from_db()
             return {'Message':'Successfully Deleted'},400
@@ -107,5 +118,5 @@ class balance(Resource):
             change+=float(data['Price Change'].replace("$",'').replace(",",''))*a.quantity
             total += float(currentPrice)
         return {"Portfolio Balance:": f"${total.__round__(2)}",
-                "24 Hour Price Change": f'${change.__round__(2)}'}
+                "24 Hour Balance Change": f'${change.__round__(2)}'}
 

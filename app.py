@@ -1,8 +1,8 @@
-from flask import Flask, request,jsonify,make_response
-from flask_restful import Resource, Api, reqparse
+from flask import Flask
+from flask_restful import Api
 from resources.Stock import Stock
 from resources.Crypto import Crypto
-from resources.User import UserRegister,UserLogin
+from resources.User import UserRegister,UserLogin,DeleteUser
 from resources.Assets import addAsset,portfolio,remove,balance
 from flask_jwt_extended import JWTManager
 from db import db
@@ -29,6 +29,7 @@ api.add_resource(addAsset,'/add')
 api.add_resource(portfolio, '/portfolio')
 api.add_resource(remove,'/remove')
 api.add_resource(balance,'/balance')
+api.add_resource(DeleteUser,'/deleteuser')
 
 if __name__ == '__main__':
     app.run(debug=True)

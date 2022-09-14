@@ -24,8 +24,10 @@ class AssetModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
-
-
+    def delete_all(id):
+        assets = AssetModel.find_all_assets(id)
+        for a in assets:
+            AssetModel.delete_from_db(a)
     @classmethod
     def find_all_assets(cls, id):
         return cls.query.filter_by(owner=id)
