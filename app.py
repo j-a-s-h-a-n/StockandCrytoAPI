@@ -3,7 +3,7 @@ from flask_restful import Api
 from resources.Stock import Stock
 from resources.Crypto import Crypto
 from resources.User import UserRegister,UserLogin,DeleteUser
-from resources.Assets import addAsset,portfolio,remove,balance
+from resources.Assets import AssetManagement,Portfolio,RemoveAsset,AccountBalance
 from flask_jwt_extended import JWTManager
 from db import db
 
@@ -25,10 +25,10 @@ api.add_resource(Stock,'/stock/<string:tag>')
 api.add_resource(Crypto,'/crypto/<string:name>')
 api.add_resource(UserRegister,'/register')
 api.add_resource(UserLogin,'/login')
-api.add_resource(addAsset,'/add')
-api.add_resource(portfolio, '/portfolio')
-api.add_resource(remove,'/remove')
-api.add_resource(balance,'/balance')
+api.add_resource(AssetManagement, '/adjustasset')
+api.add_resource(Portfolio, '/portfolio')
+api.add_resource(RemoveAsset, '/removeasset')
+api.add_resource(AccountBalance, '/balance')
 api.add_resource(DeleteUser,'/deleteuser')
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ from models.user import UserModel
 from models.assets import AssetModel
 from Scraper import *
 
-class portfolio(Resource):
+class Portfolio(Resource):
     @jwt_required()
     def get(self):
         id = get_jwt_identity()
@@ -28,7 +28,7 @@ class portfolio(Resource):
                 return dic,200
         return {'Message':'No assets recorded.'}
 
-class addAsset(Resource):
+class AssetManagement(Resource):
     parser=reqparse.RequestParser()
     parser.add_argument('name',
                         type=str,
@@ -77,7 +77,7 @@ class addAsset(Resource):
             return {'Message': 'Asset successfully updated.'},200
         return {'Message': "Asset doesn't exist. Use POST method to add asset."}, 400
 
-class remove(Resource):
+class RemoveAsset(Resource):
     parser=reqparse.RequestParser()
     parser.add_argument('name',
                         type=str,
@@ -99,7 +99,7 @@ class remove(Resource):
             return {'Message':'Successfully Deleted'},400
         return {'Message':'Asset not found.'}, 404
 
-class balance(Resource):
+class AccountBalance(Resource):
     @jwt_required()
     def get(self):
         id = get_jwt_identity()
