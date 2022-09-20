@@ -19,8 +19,8 @@ def getStock(tag):
                                                        'data-test':'DAYS_RANGE-value'}).text
             trading_volume = soup.find("td",{'class':'Ta(end) Fw(600) Lh(14px)',
                                                        'data-test':'TD_VOLUME-value'}).text
-            market_cap = soup.find("td",{'class':'Ta(end) Fw(600) Lh(14px)',
-                                                       'data-test':'MARKET_CAP-value'}).text
+            #market_cap = soup.find("td",{'class':'Ta(end) Fw(600) Lh(14px)',
+                                                       #'data-test':'MARKET_CAP-value'}).text
         except:
             return {'Message':'Stock not found in our database.'}
         return {
@@ -31,7 +31,7 @@ def getStock(tag):
             'Previous Closing Price': previous_close_price,
             'Open Price': open_price,
             'Trade Volume': trading_volume,
-            'Market Cap': market_cap
+            #'Market Cap': market_cap
         }
 def getCrypto(name):
         name = name.replace(' ', '-').upper()
@@ -48,8 +48,8 @@ def getCrypto(name):
                                      }).find_all('td')[2].text
             trading_volume= soup.find('div', {'class':'sc-16r8icm-0 fmPyWa',
                                      }).find_all('td')[3].text[:-6]
-            market_cap  = soup.find('div', {'class':'sc-16r8icm-0 nds9rn-0 dAxhCK',
-                                     }).find_all('td')[7].text[:-5]
+            #market_cap  = soup.find('div', {'class':'sc-16r8icm-0 nds9rn-0 dAxhCK',
+                                     #}).find_all('td')[7].text[:-5]
             market_rank= soup.find('div', {'class':'sc-16r8icm-0 fmPyWa',
                                      }).find_all('td')[6].text
             market_dom= soup.find('div', {'class':'sc-16r8icm-0 fmPyWa',
@@ -62,7 +62,7 @@ def getCrypto(name):
             'Price Change': price_change.replace('$',''),
             '24 Hour Low and High': low_high_24.replace('$','').replace('/','- '),
             'Trade Volume': trading_volume.replace('$',''),
-            'Market Cap': market_cap.replace('$',''),
+            #'Market Cap': market_cap.replace('$',''),
             'Market Rank': market_rank,
             'Market Dominance': market_dom
         }
