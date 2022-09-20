@@ -26,10 +26,10 @@ def getStock(tag):
         return {
             'Name':name,
             'Price': price,
-            'Previous Closing Price': previous_close_price,
-            'Open Price': open_price,
             'Price Change': price_change,
             '24 Hour Low and High': low_high_24,
+            'Previous Closing Price': previous_close_price,
+            'Open Price': open_price,
             'Trade Volume': trading_volume,
             'Market Cap': market_cap
         }
@@ -58,11 +58,11 @@ def getCrypto(name):
             return {'Message' : 'Cryptocurrency not found in our database.'}
         return {
             'Name': name,
-            'Price': price,
-            'Price Change': price_change,
-            '24 Hour Low and High': low_high_24,
-            'Trade Volume': trading_volume,
-            'Market Cap': market_cap,
+            'Price': price[1:],
+            'Price Change': price_change.replace('$',''),
+            '24 Hour Low and High': low_high_24.replace('$','').replace('/','- '),
+            'Trade Volume': trading_volume.replace('$',''),
+            'Market Cap': market_cap.replace('$',''),
             'Market Rank': market_rank,
             'Market Dominance': market_dom
         }
