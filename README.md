@@ -11,7 +11,7 @@ With this API users can retrieve Stock and Crypto Data. They can also register t
 #### Get Stock Data
 
 ```http
-  GET /stock/symbol
+  GET /stock/<string:symbol>
 ```
 
 | Parameter | Type     | Description                | Example                |
@@ -21,12 +21,12 @@ With this API users can retrieve Stock and Crypto Data. They can also register t
 #### Get Crypto Data
 
 ```http
-  GET /crypto/symbol
+  GET /crypto/<string:name>
 ```
 
 | Parameter | Type     | Description                | Example                |
 | :-------- | :------- | :------------------------- | :------------------------- |
-| `symbol` | `string` | Enter crypto name to get data | /crypto/bitcoin |
+| `name` | `string` | Enter crypto name to get data | /crypto/bitcoin |
 
 #### Register User
 
