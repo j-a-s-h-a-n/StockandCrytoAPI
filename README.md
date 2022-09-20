@@ -91,6 +91,8 @@ With this API users can retrieve Stock and Crypto Data. They can also register t
 | :------- | :------------------------- | :------------------------- |
 | `raw JSON` | Delete Asset | {"name":"aapl","type":"stock"} |
 
+#### View Portfolio
+
 
 ```http
   GET /portfolio
@@ -99,6 +101,9 @@ With this API users can retrieve Stock and Crypto Data. They can also register t
 | Parameter | Description                |
 | :-------- | :------------------------- |
 | `none`  | Returns assets in profilio with value of each asset |
+
+#### View Profilio Balance
+
 
 ```http
   GET /balance
