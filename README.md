@@ -1,7 +1,6 @@
 
 # Stock and Crypto API with Profilio Manager
 
-About
 With this API users can retrieve Stock and Crypto Data. They can also register and create a portfolio manager.
 
 
